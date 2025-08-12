@@ -1,11 +1,5 @@
 # main links
 main:
-  - title: "mmistakes.github.io"
-    url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
-    target: "_blank"
-  - title: "jekyllrb.com docs"
-    url: https://jekyllrb.com/docs/
-    target: "_blank"
   - title: "Categories"
     url: /categories/
   - title: "Tags"
