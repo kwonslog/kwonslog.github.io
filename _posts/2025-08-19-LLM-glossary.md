@@ -6,7 +6,7 @@ excerpt: "용어 단순 정리"
 date: 2025-08-19
 last_modified_at: 2025-08-19
 categories: [AI]
-tags: [LLM]
+tags: [LLM, glossary]
 toc: true
 ---
 
