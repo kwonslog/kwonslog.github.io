@@ -4,7 +4,7 @@ layout: single
 title: "React/Next.js 용어"
 excerpt: "용어 단순 정리"
 date: 2025-08-19
-last_modified_at: 2025-08-20
+last_modified_at: 2025-08-21
 categories: [front-end]
 tags: [react, glossary]
 toc: true
@@ -80,7 +80,9 @@ function Hello({ name }: HelloProps) {
   ```
 
 ## 예약 파일(Reserved Files)
-- App Router에서 `폴더 = 경로`, `파일 = 역할` 이라는 원칙에 따라, 파일 이름은 마음대로 정할 수 없고 정해진 이름만 사용 가능.
+- App Router에서 `폴더 = 경로`, `파일 = 역할` 이라는 원칙에 따라 정해진 이름만 사용 가능.
+- 정해진 이름의 파일이 있으면 Router 가 기능적으로 해석해서 사용함.(특정 예약 파일명에만 라우팅 의미를 부여)
+- 그 외 파일들을 일반적인 모듈(컴포넌트)이라서 필요한 만큼 작성해서 사용 가능함.
 - 종류
 
 | 파일명               | 설명                                                |
@@ -92,6 +94,7 @@ function Hello({ name }: HelloProps) {
 | **not-found.tsx** | `notFound()` 호출 시 또는 존재하지 않는 경로일 때 표시되는 UI.       |
 | **loading.tsx**   | 해당 경로 로딩 중일 때 표시되는 UI (React Suspense 기반).        |
 | **default.tsx**   | 병렬 라우트(Parallel Routes)에서 fallback UI 정의할 때 사용.   |
+| **route.ts**      | API 라우트
 
 ## 병렬 라우트(Parallel Routes)
 - 일반적으로 app/ 폴더 구조는 경로(URL) = 페이지(page.tsx) 로 1:1 대응.
