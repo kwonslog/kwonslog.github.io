@@ -38,6 +38,47 @@ function Hello({ name }: HelloProps) {
 }
 ```
 
+## "&" 타입 교차(Intersection type) 연산자
+- 예시
+```tsx
+type CardProps = {
+  title: string;
+  subtitle?: string;
+  children?: React.ReactNode;
+} & React.HTMLAttributes<HTMLDivElement>;
+```
+
+```tsx
+<Card
+  title="공지사항"
+  subtitle="오늘의 뉴스"
+  id="notice-card"
+  className="bg-gray-100"
+  onClick={() => alert("clicked!")}
+/>
+```
+
+- 내가 정의한 Props + div 가 원래 받을 수 있는 모든 HTML 속성을 합친 타입을 만든다.
+- 사용하지 않을 경우 className, onClick 에 대한 타입지정이 안되기 때문에 타입 에러 발생.
+  
+
+| 태그             | 타입                                                  | 설명                                                    |
+| -------------- | --------------------------------------------------- | ----------------------------------------------------- |
+| `<div>`        | `React.HTMLAttributes<HTMLDivElement>`              | 대부분의 일반 블록 요소에 사용                                     |
+| `<span>`       | `React.HTMLAttributes<HTMLSpanElement>`             | 인라인 요소                                                |
+| `<a>`          | `React.AnchorHTMLAttributes<HTMLAnchorElement>`     | `href`, `target`, `rel` 같은 링크 전용 속성 포함                |
+| `<img>`        | `React.ImgHTMLAttributes<HTMLImageElement>`         | `src`, `alt`, `width`, `height` 등 이미지 전용 속성           |
+| `<button>`     | `React.ButtonHTMLAttributes<HTMLButtonElement>`     | `onClick`, `disabled`, `type`(submit/reset/button) 지원 |
+| `<input>`      | `React.InputHTMLAttributes<HTMLInputElement>`       | `value`, `onChange`, `type`(text, number, file 등)     |
+| `<textarea>`   | `React.TextareaHTMLAttributes<HTMLTextAreaElement>` | `rows`, `cols`, `onChange` 등                          |
+| `<select>`     | `React.SelectHTMLAttributes<HTMLSelectElement>`     | `multiple`, `onChange` 등                              |
+| `<option>`     | `React.OptionHTMLAttributes<HTMLOptionElement>`     | `selected`, `value` 등                                 |
+| `<form>`       | `React.FormHTMLAttributes<HTMLFormElement>`         | `onSubmit`, `action`, `method` 등                      |
+| `<label>`      | `React.LabelHTMLAttributes<HTMLLabelElement>`       | `htmlFor` 등                                           |
+| `<table>`      | `React.TableHTMLAttributes<HTMLTableElement>`       | 표 관련 속성                                               |
+| `<td>`, `<th>` | `React.TdHTMLAttributes<HTMLTableCellElement>`      | `colSpan`, `rowSpan` 등                                |
+
+
 ## 하이드레이션(hydration)
 서버에서 렌더링된 HTML에 클라이언트 측 React 이벤트 핸들러와 상태를 연결해 상호작용 가능하게 만드는 과정.
 
