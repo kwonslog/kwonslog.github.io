@@ -16,27 +16,23 @@ toc: true
   - 변화가 필요한 시점이기도 해서 잘 사용하기 위해 적응중.
   - 설치한 패키지
     - 마크다운 문서를 위해 Markdown Editing, Markdown Preview, Side Bar, Table Editor 사용.
-    - Terminus : 에디터 안에서 터미널 실행 가능(gemini cli 실행 용도로 사용중)
-      <details>
-      <summary>명령 팔레트로 실행하는 방법 보기</summary>
-      <pre>
+    - Terminus : 에디터 안에서 터미널 실행 가능.
+      - Terminus 로 gemini cli 를 실행 했는데 `한글 입력이 안됨`. 대안으로 윈도우 터미널 창을 사용함.
+        ```
         1. 상단 메뉴 → Preferences → Browse Packages…
         2. `User` 폴더 들어가기
         3. `Default.sublime-commands` 파일이 없다면 생성하고 아래 내용 추가
+        
         [
             {
-                "caption": "Terminus: Open Gemini CLI",
-                "command": "terminus_open",
+                "caption": "Windows Terminal : Open Gemini CLI",
+                "command": "exec",
                 "args": {
-                    "cmd": ["gemini"],                // 실행할 명령
-                    "cwd": "C:/Kwon/gemini-cli",      // 실행 경로 고정
-                    "title": "Gemini CLI"
+                    "shell_cmd": "start \"\" wt -p \"Command Prompt\" -d \"C:\\Kwon\\gemini-cli\" cmd /k gemini"
                 }
             }
         ]
-      </pre>
-      </details>
-    
+        ```
   
 - [EditPlus](https://www.editplus.com/)
   - 개발자로 입문 했을때 부터 사용했던 에디터.
