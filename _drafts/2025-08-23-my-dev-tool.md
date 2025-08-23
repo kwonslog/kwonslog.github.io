@@ -3,8 +3,8 @@ published: false
 layout: single
 title: "나의 개발 도구"
 excerpt: "사용하고 있는 개발 도구 목록을 관리"
-date: 2025-08-19
-last_modified_at: 2025-08-19
+date: 2025-08-23
+last_modified_at: 2025-08-23
 categories: [dev]
 tags: [tool]
 toc: true
@@ -16,6 +16,26 @@ toc: true
   - 변화가 필요한 시점이기도 해서 잘 사용하기 위해 적응중.
   - 설치한 패키지
     - Terminus : 에디터 안에서 터미널 실행 가능(gemini cli 실행 용도로 사용중)
+      <details>
+      <summary>명령 팔레트로 실행하는 방법 보기</summary>
+      <pre>
+        1. 상단 메뉴 → Preferences → Browse Packages…
+        2. `User` 폴더 들어가기
+        3. `Default.sublime-commands` 파일이 없다면 생성하고 아래 내용 추가
+        [
+            {
+                "caption": "Terminus: Open Gemini CLI",
+                "command": "terminus_open",
+                "args": {
+                    "cmd": ["gemini"],                // 실행할 명령
+                    "cwd": "C:/Kwon/gemini-cli",      // 실행 경로 고정
+                    "title": "Gemini CLI"
+                }
+            }
+        ]
+      </pre>
+      </details>
+    
   
 - [EditPlus](https://www.editplus.com/)
   - 개발자로 입문 했을때 부터 사용했던 에디터.
