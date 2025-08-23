@@ -15,6 +15,7 @@ toc: true
   - EditPlus 를 다음으로 선택한 에디터.
   - 변화가 필요한 시점이기도 해서 잘 사용하기 위해 적응중.
   - 설치한 패키지
+    - 마크다운 문서를 위해 Markdown Editing, Markdown Preview, Side Bar, Table Editor 사용.
     - Terminus : 에디터 안에서 터미널 실행 가능(gemini cli 실행 용도로 사용중)
       <details>
       <summary>명령 팔레트로 실행하는 방법 보기</summary>
