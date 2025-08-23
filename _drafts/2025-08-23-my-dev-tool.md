@@ -1,3 +1,15 @@
+---
+published: false
+layout: single
+title: "나의 개발 도구"
+excerpt: "사용하고 있는 개발 도구 목록을 관리"
+date: 2025-08-19
+last_modified_at: 2025-08-19
+categories: [dev]
+tags: [tool]
+toc: true
+---
+
 ## 에디터
 - [Sublime Text](https://www.sublimetext.com/)
   - EditPlus 를 다음으로 선택한 에디터.
