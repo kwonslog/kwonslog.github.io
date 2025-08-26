@@ -1,3 +1,15 @@
+---
+published: false
+layout: single
+title: "React/NextJS 프롬프트 작성"
+excerpt: ""
+date: 2025-08-26
+last_modified_at: 2025-08-26
+categories: [AI]
+tags: [prompt]
+toc: true
+---
+
 > 아래 마크다운 문서는 React/NextJs 를 사용하여 코드 학습을 할때 chatgpt 에게 사용한 프롬프트 이다.
 > [소스 코드 구조] 위치에 내가 설계한 내용들을 작성한 다음 chatgpt 에게 질문하면 빠르게 진행이 가능하다.
 
