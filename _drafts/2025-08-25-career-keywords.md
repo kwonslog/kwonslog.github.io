@@ -10,14 +10,22 @@ tags: [career]
 toc: false
 ---
 
-## 우선순위
-1. MongoDB(설계/운영)
+## 관심 있는 기술 정리(우선순위)
+0. AI(업무 자동화)
+
+1. React/Next.js
+   - [ ] Next.js 프레임워크를 이용한 프론트 엔드 개발 학습중.
+
+3. MongoDB(설계/운영)
    - [ ] 실무에서 MongoDB 를 가장 많이 사용하는 use case 10개를 우선순위로 요약 정리해줘.
   
-2. CI/CD(Jenkins, ArgoCD 협업 및 자동화 경험)
+4. CI/CD(Jenkins, ArgoCD 협업 및 자동화 경험)
 
 
-## 전체 키워드 목록
+## 관심 있는 키워드 목록
+- AI(업무 자동화)
+  
+## 기업용 키워드 목록
 
 - MongoDB(설계/운영)
 - ElasticSearch(로그 분석 및 검색 시스템)
