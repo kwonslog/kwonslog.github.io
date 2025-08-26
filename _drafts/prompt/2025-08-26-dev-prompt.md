@@ -6,7 +6,7 @@ excerpt: ""
 date: 2025-08-26
 last_modified_at: 2025-08-26
 categories: [AI]
-tags: [prompt]
+tags: [prompt, react, nextjs]
 toc: true
 ---
 
