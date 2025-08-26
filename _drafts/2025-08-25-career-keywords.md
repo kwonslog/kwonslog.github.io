@@ -2,7 +2,7 @@
 published: false
 layout: single
 title: "커리어 키워드"
-excerpt: "취업에 필요한 스킬이나 개념 도구 등 원하는 것들의 키워드 정리"
+excerpt: "필요한 스킬이나 개념 도구 등 원하는 것들의 키워드 정리"
 date: 2025-08-25
 last_modified_at: 2025-08-25
 categories: [career]
