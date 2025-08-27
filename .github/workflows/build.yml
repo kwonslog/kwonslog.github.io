@@ -1,47 +1,102 @@
-name: build
+name: build-and-deploy
 
 on:
   push:
-    branches:
-      - master
+    branches: [master] # 저장소 기본 브랜치에 맞게 유지
   workflow_dispatch: {}
+  # private repo에서 트리거를 날릴 예정이라면 repository_dispatch 유지(아래 5장 참고)
   repository_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build:
-    if: github.repository == 'mmistakes/minimal-mistakes'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      # 1) 공개 저장소 체크아웃
+      - name: Checkout public repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: '3.2'
-    - name: Setup cache for Bundler
-      id: cache
-      uses: actions/cache@v4
-      with:
-        path: |
-          docs/Gemfile.lock
-          docs/vendor/bundle
-        key: ${{ runner.os }}-bundler-${{ hashFiles('docs/Gemfile') }}
-        restore-keys: |
-          ${{ runner.os }}-bundler-
+      # 2) 비공개 저장소 체크아웃 (posts, assets 가져오기)
+      - name: Checkout private posts repo
+        uses: actions/checkout@v4
+        with:
+          repository: kwonslog/github-blog-posts # 예: kwonslog/private-blog
+          ref: main # 비공개 저장소 기본 브랜치
+          token: ${{ secrets.PRIVATE_CONTENT_TOKEN }}
+          path: private-src
 
-    - name: Install - Bundler
-      env:
-        MAKE: make -j2
-      working-directory: docs/
-      run: |
-        bundle config set path vendor/bundle
-        bundle install --jobs=4 --retry=3
-        bundle clean
+      # 3) 글/자산 동기화 (필요에 따라 경로 수정)
+      - name: Sync posts and assets into docs/
+        run: |
+          mkdir -p docs/_posts
+          rsync -av --delete github-blog-posts/posts/ docs/_posts/
 
-    - name: Update Algolia index
-      working-directory: docs/
-      run: bundle exec jekyll algolia push
-      env:
-        ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
-      continue-on-error: true
+          # 선택: 이미지/첨부 자산도 함께 복사
+          if [ -d "github-blog-posts/assets" ]; then
+            mkdir -p docs/assets
+            rsync -av --delete github-blog-posts/assets/ docs/assets/
+          fi
+
+      # 4) Ruby & Bundler
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+
+      - name: Cache Bundler
+        uses: actions/cache@v4
+        with:
+          path: |
+            docs/Gemfile.lock
+            docs/vendor/bundle
+          key: ${{ runner.os }}-bundler-${{ hashFiles('docs/Gemfile') }}
+          restore-keys: |
+            ${{ runner.os }}-bundler-
+
+      - name: Install - Bundler
+        env:
+          MAKE: make -j2
+        working-directory: docs/
+        run: |
+          bundle config set path vendor/bundle
+          bundle install --jobs=4 --retry=3
+
+      # 5) Jekyll 빌드
+      - name: Build site
+        working-directory: docs/
+        run: bundle exec jekyll build --trace
+
+      # 6) Algolia 인덱스(선택): 키가 없거나 실패해도 워크플로우는 계속
+      - name: Update Algolia index
+        working-directory: docs/
+        run: bundle exec jekyll algolia push
+        env:
+          ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+        continue-on-error: true
+
+      # 7) Pages 업로드(아티팩트)
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/_site
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
