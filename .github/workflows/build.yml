@@ -33,7 +33,7 @@ jobs:
           repository: kwonslog/github-blog-posts # 예: kwonslog/private-blog
           ref: main # 비공개 저장소 기본 브랜치
           token: ${{ secrets.PRIVATE_CONTENT_TOKEN }}
-          path: private-src
+          path: github-blog-posts
 
       # 3) 글/자산 동기화 (필요에 따라 경로 수정)
       - name: Sync posts and assets into docs/
