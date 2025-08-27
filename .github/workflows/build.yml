@@ -5,7 +5,8 @@ on:
     branches: [master] # 저장소 기본 브랜치에 맞게 유지
   workflow_dispatch: {}
   # private repo에서 트리거를 날릴 예정이라면 repository_dispatch 유지(아래 5장 참고)
-  repository_dispatch: {}
+  repository_dispatch:
+    types: [private-content-updated]
 
 permissions:
   contents: read
