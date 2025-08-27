@@ -35,16 +35,20 @@ jobs:
           token: ${{ secrets.PRIVATE_CONTENT_TOKEN }}
           path: github-blog-posts
 
-      # 3) 글/자산 동기화 (필요에 따라 경로 수정)
-      - name: Sync posts and assets into docs/
-        run: |
-          mkdir -p docs/_posts
-          rsync -av --delete github-blog-posts/posts/ docs/_posts/
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
-          # 선택: 이미지/첨부 자산도 함께 복사
+      # 3) 글/자산 동기화 (필요에 따라 경로 수정)
+      - name: Sync posts and assets into root
+        run: |
+          set -eux
+          mkdir -p _posts
+          if [ -d "github-blog-posts/posts" ]; then
+            rsync -av --delete github-blog-posts/posts/ _posts/
+          fi
           if [ -d "github-blog-posts/assets" ]; then
-            mkdir -p docs/assets
-            rsync -av --delete github-blog-posts/assets/ docs/assets/
+            mkdir -p assets
+            rsync -av --delete github-blog-posts/assets/ assets/
           fi
 
       # 4) Ruby & Bundler
@@ -56,39 +60,25 @@ jobs:
       - name: Cache Bundler
         uses: actions/cache@v4
         with:
-          path: |
-            docs/Gemfile.lock
-            docs/vendor/bundle
-          key: ${{ runner.os }}-bundler-${{ hashFiles('docs/Gemfile') }}
+          path: vendor/bundle
+          key: ${{ runner.os }}-bundler-${{ hashFiles('Gemfile','Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-bundler-
 
       - name: Install - Bundler
         env:
           MAKE: make -j2
-        working-directory: docs/
         run: |
           bundle config set path vendor/bundle
           bundle install --jobs=4 --retry=3
 
-      # 5) Jekyll 빌드
-      - name: Build site
-        working-directory: docs/
+      - name: Build site (root)
         run: bundle exec jekyll build --trace
 
-      # 6) Algolia 인덱스(선택): 키가 없거나 실패해도 워크플로우는 계속
-      - name: Update Algolia index
-        working-directory: docs/
-        run: bundle exec jekyll algolia push
-        env:
-          ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
-        continue-on-error: true
-
-      # 7) Pages 업로드(아티팩트)
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/_site
+          path: _site
 
   deploy:
     runs-on: ubuntu-latest
